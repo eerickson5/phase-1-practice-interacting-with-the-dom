@@ -21,6 +21,12 @@ handleButtons = () => {
     //incrementor
     document.getElementById("plus").addEventListener("click", () => modifyCounter(1));
     //heart
+    handleLikeButton();
+    //pause and resume
+    handlePauseButton();
+}
+
+handleLikeButton = () => {
     document.getElementById("heart").addEventListener("click", () => {
 
         const counter = document.getElementById("counter").textContent;
@@ -51,10 +57,24 @@ handleButtons = () => {
     })
 }
 
+handlePauseButton = () => {
+    document.getElementById("pause").addEventListener("click", (event) => {
+        const button = event.target;
+        if(button.textContent.trim() === "pause"){
+            clearInterval(interval);
+            button.textContent = "resume";
+        } else if(button.textContent.trim() === "resume"){
+            createCounter();
+            button.textContent = "pause"
+        }
+    })
+}
+
+
+
 //adds to the counter once a second
 createCounter = () => {
-    
-    setInterval(() => {
+    interval = setInterval(() => {
         const counter = document.getElementById("counter");
         let number = parseInt(counter.textContent);
         number ++;
@@ -72,9 +92,9 @@ function modifyCounter(n = 1) {
 
 
 document.addEventListener("DOMContentLoaded", () => init())
-
+let interval;
 function init() {
-    handleCommentForm();
-    handleButtons();
     createCounter();
+    handleButtons();
+    handleCommentForm();
 }
